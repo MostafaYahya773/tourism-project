@@ -1,25 +1,37 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import FavouratePlaces from '../_components/favouratePlases/page';
 import FavourateTransport from '../_components/FavourateTransport/page';
+import { contextProvider } from '../context/contextProvider';
 
 export default function FavourateLayout() {
+  // use context
+  let { favourateCount } = useContext(contextProvider);
+
   // change page
-  let [changePage, setChangePage] = useState('places');
+  let [changePage, setChangePage] = useState('Places');
   // favourate department
-  const [department, setDepartMent] = useState([
-    { name: 'TRANSPORT', marked: '3 marked', id: 0 },
-    { name: 'Places', marked: '3 marked', id: 1 },
-  ]);
+  const [department, setDepartMent] = useState([]);
+  useEffect(() => {
+    if (!favourateCount) return;
+    setDepartMent([
+      {
+        name: 'Places',
+        marked: favourateCount ? `${favourateCount} marked` : '0 marked',
+        id: 0,
+      },
+      { name: 'TRANSPORT', marked: '3 marked', id: 1 },
+    ]);
+  }, [favourateCount]);
   // put id of department
-  let [departid, setDepartId] = useState(1);
+  let [departid, setDepartId] = useState(0);
   return (
     <div className="flex flex-col gap-y-2 mt-24  w-[95%] mx-auto">
       <h1 className="title font-bold text-[#76192D] text-[18px] md:text-[25px] lg:text-[30px]">
         Favourites
       </h1>
       <div className="flex flex-col gap-y-7">
-        <div className="departments grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="departments grid  grid-cols-2 gap-4">
           {department?.map((depart, index) => (
             <div
               onClick={() => {

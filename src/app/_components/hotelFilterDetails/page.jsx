@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 export default function HotelFilterDetails() {
   // rating state
   const [rating, setRating] = useState([0, 1, 2, 3, 4]);
@@ -24,7 +24,19 @@ export default function HotelFilterDetails() {
   const [amenitiesOpen, setAmenitiesOpen] = useState(true);
   //freebies open
   const [freebiesOpen, setFreebiesOpen] = useState(true);
+  //save target
+  const [saveTarget, setSaveTarget] = useState([]);
 
+  // handle all freebise
+  const handleFreebise = (e) => {
+    let result = e.target.name;
+    if (saveTarget.includes(result)) {
+      setSaveTarget(saveTarget.filter((item) => item !== result));
+    } else {
+      setSaveTarget([...saveTarget, result]);
+    }
+  };
+  useEffect(() => {}, [saveTarget]);
   return (
     <div className="flex flex-col gap-y-0 text-[#00234D]  ">
       <div className="price"></div>
@@ -72,7 +84,13 @@ export default function HotelFilterDetails() {
           {freebies?.map((item, index) => (
             <div key={index} className="flex ">
               <div className="flex gap-x-2 ">
-                <input type="checkbox" id={item?.name} />
+                <input
+                  type="checkbox"
+                  id={item?.name}
+                  name={item?.name}
+                  checked={saveTarget.includes(item.name)}
+                  onChange={handleFreebise}
+                />
                 <label className="cursor-pointer" htmlFor={item?.name}>
                   {item?.name}
                 </label>

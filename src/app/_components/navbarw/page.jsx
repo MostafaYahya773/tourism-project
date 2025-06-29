@@ -6,21 +6,32 @@ export default function NavbarW() {
   let pathname = usePathname();
   const [isClick, setIsClick] = useState(false);
   return (
-    <div className="flex justify-between items-center px-4 fixed z-[999] top-0 left-0 right-0 w-full mx-auto backdrop-blur bg-white/2 max-w-[2000px]  ">
+    <div
+      className={`flex backdrop-blur bg-white/2 justify-between items-center px-4 py-1 fixed z-[9999999] top-0 left-0 right-0 w-full mx-auto  max-w-[2000px]  `}
+    >
       <div className="logo">
         <Link href="/">
           <img
-            className="w-[100px] h-[80px]  sm:w-[150px] md:h-[80px]"
+            className="w-[80px] h-[50px]"
             src="/TURISM-AIG-WEB-PIC/logo.png"
             alt="logo"
           />
         </Link>
       </div>
-      <div className="hidden option md:flex items-center gap-x-7">
+      <div
+        className={`${
+          pathname === '/login' ||
+          pathname === '/register' ||
+          pathname === '/verifyCode' ||
+          pathname === '/forgotPass'
+            ? 'md:hidden'
+            : 'md:flex'
+        } hidden option  items-center gap-x-7`}
+      >
         <Link
           href="/"
           className={`findCar flex items-center gap-x-3 ${
-            pathname === '/' ? 'text-[#FCA311]' : 'text-white'
+            pathname === '/' ? 'text-[#FCA311]' : 'text-black'
           }`}
         >
           <i className="fa-solid fa-car w-[20px] h-[16px]"></i>
@@ -30,7 +41,7 @@ export default function NavbarW() {
         <Link
           href="/stays"
           className={`findCar flex items-center gap-x-3  ${
-            pathname === '/stays' ? 'text-[#FCA311]' : 'text-white'
+            pathname === '/stays' ? 'text-[#FCA311]' : 'text-black'
           }`}
         >
           <i className="fa-solid fa-bed w-[20px] h-[16px]"></i>
@@ -40,12 +51,12 @@ export default function NavbarW() {
       <div className="hidden log md:flex gap-x-3">
         <Link
           href="/login"
-          className="py-2 px-5 text-white text-[14px] font-bold rounded-lg hoverAnimation  "
+          className={`bg-[#6E1E1E] text-white py-2 px-5  text-[14px] font-bold rounded-lg   `}
         >
           Login
         </Link>
         <Link
-          className="py-2 px-5 text-black bg-white text-[14px] font-bold rounded-lg hoverAnimation "
+          className={`bg-[#6E1E1E] text-white  font-medium  text-[14px] rounded-lg   py-2 px-5`}
           href="/register"
         >
           Sign Up
@@ -75,6 +86,7 @@ export default function NavbarW() {
           <i className="fa-solid fa-car w-[20px] h-[16px]"></i>
           <p className="text-[14px] font-semibold">Find Car</p>
         </Link>
+
         <Link
           href="/login"
           className={` flex items-center gap-x-3 ${
@@ -84,6 +96,7 @@ export default function NavbarW() {
           <i className="fa-solid fa-right-to-bracket w-[20px] h-[16px]"></i>
           <p className="text-[14px] font-semibold">Login</p>
         </Link>
+
         <Link
           href="/register"
           className={`findCar flex items-center gap-x-3 ${

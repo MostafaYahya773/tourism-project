@@ -1,9 +1,9 @@
 'use client';
 import React, { useContext } from 'react';
-import { addCard } from '@/app/context/showcart';
+import { contextProvider } from '@/app/context/contextProvider';
 export default function AddNewCard() {
   // hide and show add card component
-  const { isAddCard, setIsAddCard } = useContext(addCard);
+  const { isAddCard, setIsAddCard } = useContext(contextProvider);
   return (
     <div
       className={`fixed flex justify-center items-center bg-[#0000008c] z-[10000000] w-full h-screen top-0 right-0 left-0 ${

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Login from '../(auth)/login/page';
 import PaymentOption from '../_components/paymentOption/page';
 import AddNewCard from '../_components/addNewCard/page';
@@ -38,7 +38,15 @@ export default function Payment() {
     },
   ]);
   // token is exist or not
-  const [token, setToken] = useState(true);
+  const [token, setToken] = useState();
+  useEffect(() => {
+    let tokenValue = localStorage.getItem('token');
+    if (!tokenValue) {
+      setToken(false);
+    } else {
+      setToken(tokenValue);
+    }
+  }, []);
   // checkd option
   let [selectedId, setSelectedId] = useState(0);
 
@@ -95,7 +103,7 @@ export default function Payment() {
           {paymentType?.map((item, index) => (
             <div
               key={index}
-              onClick={() => setSelectedId(item.id)}
+              onClick={() => setSelectedId(item?.id)}
               className={`${
                 item?.id === selectedId ? 'bg-[#FCA311] ' : ''
               } fullpay flex justify-between items-center md:p-5 p-2 rounded-2xl gap-5`}

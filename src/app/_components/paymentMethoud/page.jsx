@@ -1,11 +1,11 @@
 'use client';
-import { addCard } from '@/app/context/showcart';
 import React, { useContext, useState } from 'react';
 import AddNewCard from '../addNewCard/page';
+import { contextProvider } from '@/app/context/contextProvider';
 
 export default function PaymentMethoud() {
   // use context
-  let { isAddCard, setIsAddCard } = useContext(addCard);
+  let { setIsAddCard } = useContext(contextProvider);
   //payment type
   const [payment, setPayment] = useState({
     cardNumber: '1234567893256489',

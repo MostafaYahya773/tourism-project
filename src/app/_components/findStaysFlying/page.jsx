@@ -1,6 +1,8 @@
 'use client';
+
 import { usePathname } from 'next/navigation';
 import React, { useState } from 'react';
+
 export default function FindStaysFlying() {
   let path = usePathname();
 
@@ -31,9 +33,9 @@ export default function FindStaysFlying() {
 
   return (
     <div
-      className={`w-[95%] h-fit bg-w shadow-xl mx-auto rounded-xl gap-y-12 p-5 hidden md:grid bg-white ${
+      className={`w-[95%] h-fit  shadow-xl mx-auto rounded-xl gap-y-12 p-5 hidden md:grid bg-white ${
         path === '/book' ? 'grid-rows-none' : 'grid-rows-[auto_auto]'
-      } `}
+      }`}
     >
       <div className={`title ${path === '/book' ? 'hidden' : 'block'}`}>
         <h1 className=" fliying_title text-[#114577] text-[20px] font-semibold relative">

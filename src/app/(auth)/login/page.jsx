@@ -1,11 +1,51 @@
 'use client';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext } from 'react';
 import '@fortawesome/fontawesome-free';
 import CustomSlider from '@/app/_components/slider/page';
 import { usePathname } from 'next/navigation';
+import { useFormik } from 'formik';
+
+import UseLogin from '@/app/hook/(auth)/useLogin';
+import { contextProvider } from '@/app/context/contextProvider';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
 
 export default function Login() {
+  let { tokenValue, setTokenValue, isloading, setIsLoading } =
+    useContext(contextProvider);
+  // call api using hook
+  const { mutate, isError, error } = UseLogin();
+  // use router
+  let router = useRouter();
+  // function to send data to api
+  const hanleSubmit = (values) => {
+    setIsLoading(true);
+    mutate(values, {
+      onSuccess: (res) => {
+        setIsLoading(false);
+        toast.success(res?.data?.message, {
+          position: 'top-center',
+          className: 'mt-24 text-[14px]',
+        });
+        localStorage.setItem('token', res?.data?.token);
+        setTokenValue(res?.data?.token);
+        router.push('/');
+      },
+      onError: (err) => {
+        setIsLoading(false);
+      },
+    });
+  };
+  // set values
+  const formik = useFormik({
+    initialValues: {
+      email: '',
+      password: '',
+    },
+    onSubmit: hanleSubmit,
+  });
+
   let pathname = usePathname();
   var settings = {
     dots: true,
@@ -15,13 +55,25 @@ export default function Login() {
     slidesToScroll: 1,
     adaptiveHeight: true,
   };
+
+  // handleLogin
+  const handleLogin = () => {
+    let token = localStorage.getItem('token');
+    if (!token) {
+      return;
+    } else {
+      setTokenValue(localStorage.getItem('token'));
+      toast.success('Login Successfully', { position: 'buttom-center' });
+      router.push('/');
+    }
+  };
   return (
     <div
       className={`${
         pathname === '/payment'
           ? 'mx-0 mt-0 mb-0 h-fit'
           : 'mx-5 xl:mx-20 mt-10 mb-40 h-screen'
-      }   flex justify-center items-center   relative `}
+      }   flex justify-center items-center relative `}
     >
       <div
         className={`${
@@ -46,7 +98,12 @@ export default function Login() {
             </p>
           </div>
           <div className="form flex flex-col gap-y-4">
-            <form>
+            {isError && (
+              <div className="text-white flex items-center p-2 rounded-lg  bg-[#d15858]">
+                {error?.response?.data?.error || error?.message}
+              </div>
+            )}
+            <form onSubmit={formik.handleSubmit}>
               <div className="flex flex-col gap-y-5">
                 <div className="email flex flex-col relative">
                   <label
@@ -59,6 +116,9 @@ export default function Login() {
                     className="border outline-none text-black border-[#79747E] rounded-md h-[50px] px-2"
                     type="email"
                     id="email"
+                    name="email"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     placeholder="Enter Your Email"
                   />
                 </div>
@@ -73,6 +133,9 @@ export default function Login() {
                     className="border outline-none text-black border-[#79747E] rounded-md  h-[50px] px-2"
                     type="password"
                     id="pass"
+                    name="password"
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     placeholder="Enter Your Password"
                   />
                 </div>
@@ -96,13 +159,13 @@ export default function Login() {
                     </p>
                   </div>
                 </div>
-                <Link
-                  href="/"
+                <button
+                  onClick={handleLogin}
                   type="submit"
                   className="bg-[#6E1E1E] h-[48px] rounded-2xl flex justify-center items-center"
                 >
-                  Login
-                </Link>
+                  {isloading ? <span className="loaderChange"></span> : 'Login'}
+                </button>
               </div>
             </form>
             <div className="signup text-center">

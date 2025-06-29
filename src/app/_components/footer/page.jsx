@@ -3,7 +3,7 @@ import Link from 'next/link';
 import React from 'react';
 export default function Footer() {
   return (
-    <div className="mt-10 px-2 md:px-10 bg-[#00234D] w-full left-0 sticky right-0 h-fit p-5">
+    <div className="mt-10 px-2 md:px-10 bg-[#00234D] w-full left-0 sticky  right-0 h-fit p-5">
       <div className="flex flex-col gap-y-10 mx-auto max-w-[2000px]">
         <div className="subscribe font-bold text-[#FBFCFF] bg-[#14213D5E] -mt-40 w-full rounded-xl h-[305px] p-2 hidden md:flex">
           <div className="flex flex-col gap-y-2 w-full lg:w-1/2">

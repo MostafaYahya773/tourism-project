@@ -1,10 +1,10 @@
 'use client';
 import React, { useContext, useState } from 'react';
 import AddNewCard from '../addNewCard/page';
-import { addCard } from '@/app/context/showcart';
+import { contextProvider } from '@/app/context/contextProvider';
 export default function PaymentOption() {
   // hide and show add card component
-  let { isAddCard, setIsAddCard } = useContext(addCard);
+  let { isAddCard, setIsAddCard } = useContext(contextProvider);
 
   //payment type
   const [paymentType, setPaymentType] = useState([

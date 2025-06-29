@@ -2,9 +2,9 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
-  images: {
-    domains: ['example.com'],
-  },
+  // images: {
+  //   domains: ['res.cloudinary.com'],
+  // },
   env: {
     CUSTOM_API_URL: 'https://api.example.com',
   },

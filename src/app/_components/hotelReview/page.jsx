@@ -1,4 +1,5 @@
 'use client';
+import UseHotel from '@/app/hook/useHotel';
 import Link from 'next/link';
 import React, { useState } from 'react';
 
@@ -40,6 +41,8 @@ export default function HotelReview() {
         'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.',
     },
   ]);
+  // get review from data
+  const { data, isLoading } = UseHotel('hotels', '', id);
   //controle for comments swip
   let [swip, setSwip] = useState(1);
   return (

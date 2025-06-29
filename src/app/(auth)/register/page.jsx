@@ -1,9 +1,85 @@
+'use client';
 import Link from 'next/link';
-import React from 'react';
+
+import * as Yup from 'yup';
 import '@fortawesome/fontawesome-free';
 import CustomSlider from '@/app/_components/slider/page';
-
+import UseRegister from '@/app/hook/(auth)/useRegister';
+import { useFormik } from 'formik';
+import { useContext, useEffect, useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { contextProvider } from '@/app/context/contextProvider';
+import toast from 'react-hot-toast';
 export default function Register() {
+  // use context
+  let { setTokenValue, isloading, setIsLoading } = useContext(contextProvider);
+
+  // handle error in form
+  const userError = Yup.object().shape({
+    firstName: Yup.string()
+      .min(3, 'min 3 length')
+      .max(10, 'max 10 length')
+      .required('First Name is required'),
+    lastName: Yup.string()
+      .min(3, 'min 3 length')
+      .max(10, 'max 10 length')
+      .required('Last Name is required'),
+    email: Yup.string().email('Email is not Vailed').required(),
+    password: Yup.string()
+      .matches(
+        /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{10,100}$/,
+        'Password must be small (a-z)  capital (A-Z) number (0-9)  special (@$!%*?&)'
+      )
+      .required('Password is required'),
+    phone: Yup.string()
+      .matches(/^(\+20)?01[0125][0-9]{8}$/, 'phone must be Egy Number')
+      .required('Phone is required'),
+  });
+  // call api using hook
+  const { mutate, isError, error } = UseRegister();
+
+  //function to send data to api
+  const hanleSubmit = (values) => {
+    setIsLoading(true);
+    mutate(values, {
+      onSuccess: (res) => {
+        setIsLoading(false);
+        toast.success(res?.data?.message, {
+          position: 'top-center',
+          className: 'mt-20 text-[14px]',
+        });
+        router.push('/');
+      },
+      onError: (err) => {
+        setIsLoading(false);
+        toast.error(err?.response?.data?.error, {
+          position: 'top-center',
+          className: 'mt-20 text-[14px]',
+        });
+      },
+    });
+  };
+  // get data from user
+  const formik = useFormik({
+    initialValues: {
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      phone: '',
+    },
+    onSubmit: hanleSubmit,
+    validationSchema: userError,
+  });
+
+  let router = useRouter();
+  //handle redirect
+  const handleRedirect = () => {
+    let token = localStorage.getItem('token');
+    if (!token) return;
+    setTokenValue(localStorage.getItem('token'));
+  };
+
   var settings = {
     dots: true,
     infinite: true,
@@ -36,13 +112,19 @@ export default function Register() {
               Let’s get you all st up so you can access your personal account.
             </p>
           </div>
+
           <div className="form flex flex-col gap-y-4">
-            <form>
+            {isError ? (
+              <div className="text-white flex items-center p-2 rounded-lg  bg-[#d15858]">
+                {error?.response?.data?.error || error?.message}
+              </div>
+            ) : null}
+            <form onSubmit={formik.handleSubmit}>
               <div className="flex flex-col gap-y-5">
                 <div className="names grid grid-cols-1 lg:grid-cols-2 gap-5 ">
                   <div className="f-name relative ">
                     <label
-                      htmlFor="fname"
+                      htmlFor="firstName"
                       className="absolute font-normal text-[14px] text-[#00234D] bg-white left-2 -top-[9px] px-1 "
                     >
                       first name
@@ -50,13 +132,23 @@ export default function Register() {
                     <input
                       className="border outline-none text-black border-[#79747E] rounded-md h-[50px] px-2 w-full"
                       type="text"
-                      id="fname"
+                      id="firstName"
+                      name="firstName"
                       placeholder="Enter Your first name"
+                      value={formik.values.firstName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                     />
+                    {formik.errors.firstName && formik.touched.firstName ? (
+                      <div className="flex items-center  text-[12px] mt-2 text-red-600  ">
+                        {`* ${formik.errors.firstName}`}
+                      </div>
+                    ) : null}
                   </div>
+
                   <div className="l-name relative">
                     <label
-                      htmlFor="lname"
+                      htmlFor="lastName"
                       className="absolute font-normal text-[14px] text-[#00234D] bg-white left-2 -top-[9px] px-1 "
                     >
                       last name
@@ -64,9 +156,18 @@ export default function Register() {
                     <input
                       className="border outline-none text-black border-[#79747E] rounded-md h-[50px] px-2  w-full"
                       type="text"
-                      id="lname"
+                      id="lastName"
+                      name="lastName"
+                      value={formik.values.lastName}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       placeholder="Enter Your last name"
                     />
+                    {formik.errors.lastName && formik.touched.lastName ? (
+                      <div className="flex items-center  text-[12px] mt-2 text-red-600  ">
+                        {`* ${formik.errors.lastName}`}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className="email_phone grid grid-cols-1 lg:grid-cols-2 gap-5 ">
@@ -81,8 +182,17 @@ export default function Register() {
                       className="border outline-none text-black border-[#79747E] rounded-md h-[50px] px-2"
                       type="email"
                       id="email"
+                      name="email"
+                      value={formik.values.email}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       placeholder="Enter Your Email"
                     />
+                    {formik.errors.email && formik.touched.email ? (
+                      <div className="flex items-center  text-[12px] mt-2 text-red-600  ">
+                        {`* ${formik.errors.email}`}
+                      </div>
+                    ) : null}
                   </div>
                   <div className="phone flex flex-col relative">
                     <label
@@ -95,8 +205,17 @@ export default function Register() {
                       className="border outline-none text-black border-[#79747E] rounded-md h-[50px] px-2 w-full"
                       type="tel"
                       id="tel"
+                      name="phone"
+                      value={formik.values.phone}
+                      onChange={formik.handleChange}
+                      onBlur={formik.handleBlur}
                       placeholder="Enter Your phone"
                     />
+                    {formik.errors.phone && formik.touched.phone ? (
+                      <div className="flex items-center  text-[12px] mt-2 text-red-600  ">
+                        {`* ${formik.errors.phone}`}
+                      </div>
+                    ) : null}
                   </div>
                 </div>
                 <div className="password flex flex-col relative">
@@ -110,23 +229,19 @@ export default function Register() {
                     className="border outline-none text-black border-[#79747E] rounded-md  h-[50px] px-2"
                     type="password"
                     id="pass"
+                    name="password"
+                    value={formik.values.password}
+                    onChange={formik.handleChange}
+                    onBlur={formik.handleBlur}
                     placeholder="Enter Your Password"
                   />
+                  {formik.errors.password && formik.touched.password ? (
+                    <div className="flex items-center  text-[12px] mt-2 text-red-600  ">
+                      {`* ${formik.errors.password}`}
+                    </div>
+                  ) : null}
                 </div>
-                <div className="confPassword flex flex-col relative">
-                  <label
-                    htmlFor="pass"
-                    className="absolute font-normal text-[14px] text-[#00234D] bg-white left-2 -top-[9px] px-1 "
-                  >
-                    confirm Password
-                  </label>
-                  <input
-                    className="border outline-none text-black border-[#79747E] rounded-md  h-[50px] px-2"
-                    type="password"
-                    id="pass"
-                    placeholder="Enter Your confirm Password"
-                  />
-                </div>
+
                 <div className="remember__forget flex justify-between items-center flex-wrap gap-3 ">
                   <div className="remember text-[#00234D] flex gap-x-1">
                     <input
@@ -150,13 +265,19 @@ export default function Register() {
                   </div>
                 </div>
                 <button
+                  onClick={handleRedirect}
                   type="submit"
                   className="bg-[#6E1E1E] h-[48px] rounded-2xl"
                 >
-                  Create account
+                  {isloading ? (
+                    <span className="loaderChange"></span>
+                  ) : (
+                    'Create account'
+                  )}
                 </button>
               </div>
             </form>
+
             <div className="Login text-center">
               <p className="text-[#00234D] text-[14px] font-semibold">
                 Already have an accountt ?{' '}
@@ -166,6 +287,7 @@ export default function Register() {
               </p>
             </div>
           </div>
+
           <div className="another border border-t-[#00234D] opacity-50 relative before"></div>
           <div className="accounts grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-x-5 gap-y-5">
             <Link

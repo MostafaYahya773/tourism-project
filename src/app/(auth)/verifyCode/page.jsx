@@ -1,9 +1,65 @@
+'use client';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import '@fortawesome/fontawesome-free';
 import CustomSlider from '@/app/_components/slider/page';
+import { contextProvider } from '@/app/context/contextProvider';
+import { useRouter } from 'next/navigation';
+import UseVerify from '@/app/hook/(auth)/useVerify';
+import toast from 'react-hot-toast';
 
 export default function Verify() {
+  //get email from user
+  const { forgetEmail, isloading, setIsLoading, setCode } =
+    useContext(contextProvider);
+
+  //read user data
+  let [readData, setReadData] = useState({});
+
+  // api
+  const { mutate, isError, error } = UseVerify();
+
+  //use it to change my pass if state is success
+  let router = useRouter();
+
+  //read email
+  const submitHandler = (e) => {
+    // to prevent refresh
+    e.preventDefault();
+    // save code send in my email
+    setCode(e.target.value);
+    // to submit if forgetEmail is not null
+    if (!forgetEmail) return;
+    // send data to api
+    setReadData({ email: forgetEmail, token: e.target.value });
+  };
+
+  //handle submit
+  const handleEmail = (e) => {
+    // to prevent refresh
+    e.preventDefault();
+    // send data to api
+    setIsLoading(true);
+    if (!readData) return;
+    mutate(readData, {
+      onSuccess: (res) => {
+        setIsLoading(false),
+          toast.success(res?.data?.message, {
+            position: 'top-center',
+            className: 'mt-20 text-[14px]',
+          });
+        router.push('/setPass');
+      },
+      onError: (err) => {
+        setIsLoading(false);
+        toast.error('Invalid or expired token', {
+          position: 'top-center',
+          className: 'mt-20 text-[14px]',
+        });
+      },
+    });
+  };
+
   var settings = {
     dots: true,
     infinite: true,
@@ -13,7 +69,7 @@ export default function Verify() {
     adaptiveHeight: true,
   };
   return (
-    <div className="mx-5 xl:mx-20  flex justify-center items-center h-screen py-2 relative ">
+    <div className="mx-5 xl:mx-20  mt-10 mb-40  flex justify-center items-center h-screen py-2 relative ">
       <div className="grid grid-cols-1 lg:grid-cols-2  w-full h-full gap-x-10 ">
         <div className="text  text-white flex flex-col justify-center gap-y-7 px-5 md:px-10">
           <Link
@@ -41,7 +97,9 @@ export default function Verify() {
                     className="border outline-none text-black border-[#79747E] rounded-md h-[50px] px-2"
                     type="text"
                     id="ver"
+                    onChange={submitHandler}
                     placeholder="Enter Your Code"
+                    required
                   />
                 </div>
                 <div className="remember__forget flex justify-between items-center flex-wrap gap-3 ">
@@ -57,18 +115,22 @@ export default function Verify() {
                     </p>
                   </div>
                 </div>
-                <Link
+                <button
+                  onClick={handleEmail}
                   type="submit"
                   className="bg-[#6E1E1E] h-[48px] rounded-md w-full flex justify-center items-center"
-                  href="/setPass"
                 >
-                  Verify
-                </Link>
+                  {isloading ? (
+                    <span className="loaderChange"></span>
+                  ) : (
+                    'Verify'
+                  )}
+                </button>
               </div>
             </form>
           </div>
         </div>
-        <div className=" h-[670px] my-auto w-[95%] mx-auto hidden lg:block">
+        <div className=" h-[600px] my-auto w-[95%] mx-auto hidden lg:block">
           <CustomSlider {...settings} className="h-full">
             <img
               src="/TURISM-AIG-WEB-PIC/Rectangle20@2x.png"

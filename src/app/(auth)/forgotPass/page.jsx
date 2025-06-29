@@ -1,9 +1,53 @@
+'use client';
 import Link from 'next/link';
-import React from 'react';
+import React, { useContext, useState } from 'react';
 import '@fortawesome/fontawesome-free';
 import CustomSlider from '@/app/_components/slider/page';
+import UseForget from '@/app/hook/(auth)/useforget';
+import toast from 'react-hot-toast';
+import { useRouter } from 'next/navigation';
+import { contextProvider } from '@/app/context/contextProvider';
 
 export default function Forget() {
+  // get email from user
+  const { setForgetEmail, isloading, setIsLoading } =
+    useContext(contextProvider);
+  //send data to api
+  let { mutate, isError } = UseForget();
+  // read email from input
+  let [readEmail, setReadEmail] = useState({});
+  // userouter
+  let router = useRouter();
+  // read email from input
+  const handleForget = (e) => {
+    let email = e.target.value;
+    let data = { email: email };
+    setReadEmail(data);
+    setForgetEmail(email);
+  };
+  // handle submit
+  const submitHandler = (e) => {
+    setIsLoading(true);
+    e.preventDefault();
+    mutate(readEmail, {
+      onSuccess: (res) => {
+        setIsLoading(false);
+        toast.success(res?.data?.message, {
+          position: 'top-center',
+          className: 'mt-20 text-[14px]',
+        });
+        router.push('/verifyCode');
+      },
+      onError: (err) => {
+        setIsLoading(false);
+        toast.error(err?.response?.data?.error, {
+          position: 'top-center',
+          className: 'mt-20 text-[14px]',
+        });
+      },
+    });
+  };
+
   var settings = {
     dots: true,
     infinite: true,
@@ -13,7 +57,7 @@ export default function Forget() {
     adaptiveHeight: true,
   };
   return (
-    <div className="mx-5 xl:mx-20  flex justify-center items-center h-screen py-2 relative ">
+    <div className="mx-5 xl:mx-20  mt-10 mb-40  flex justify-center items-center h-screen py-2 relative ">
       <div className="grid grid-cols-1 lg:grid-cols-2  w-full h-full gap-x-10 ">
         <div className="text text-white flex flex-col justify-center gap-y-7 px-5 md:px-10">
           <Link
@@ -40,27 +84,28 @@ export default function Forget() {
                   >
                     Email
                   </label>
+
                   <input
-                    required
                     className="border outline-none text-black border-[#79747E] rounded-md h-[50px] px-2"
                     type="email"
                     id="email"
+                    onChange={handleForget}
                     placeholder="Enter Your Email"
+                    required
                   />
                 </div>
-                <button type="submit">
-                  <Link
-                    className="bg-[#6E1E1E] h-[48px] rounded-md w-full flex justify-center items-center"
-                    href="/verifyCode"
-                  >
-                    submit
-                  </Link>
+                <button
+                  onClick={submitHandler}
+                  type="submit"
+                  className="bg-[#6E1E1E] h-[48px] rounded-md w-full flex justify-center items-center"
+                >
+                  {isloading ? <span className="loaderChange"></span> : 'send'}
                 </button>
               </div>
             </form>
           </div>
-          <div className="another border border-t-[#00234D] opacity-50 relative before"></div>
-          <div className="accounts grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-x-5 gap-y-5">
+          {/* <div className="another border border-t-[#00234D] opacity-50 relative before"></div> */}
+          {/* <div className="accounts grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-x-5 gap-y-5">
             <Link
               href={''}
               className="facebook border border-[#FCA5A5] flex justify-center items-center h-[45px]  "
@@ -80,9 +125,9 @@ export default function Forget() {
             >
               <i className="fa-brands fa-apple text-[#00234D] text-[24px]"></i>
             </Link>
-          </div>
+          </div> */}
         </div>
-        <div className=" h-[670px] my-auto w-[95%] mx-auto hidden lg:block">
+        <div className=" h-[600px] my-auto  w-[95%]  hidden lg:block">
           <CustomSlider {...settings} className="h-full">
             <img
               src="/TURISM-AIG-WEB-PIC/Rectangle20@2x.png"
