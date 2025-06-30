@@ -72,7 +72,7 @@ export default function Login() {
       className={`${
         pathname === '/payment'
           ? 'mx-0 mt-0 mb-0 h-fit'
-          : 'mx-5 xl:mx-20 mt-10 mb-40 h-screen'
+          : 'mx-5 xl:mx-20 mt-10 mb-0 md:mb-40 md:my-20 '
       }   flex justify-center items-center relative `}
     >
       <div
@@ -87,12 +87,10 @@ export default function Login() {
             pathname === '/payment'
               ? 'px-3 justify-start h-fit'
               : 'md:px-10 px-5 justify-center'
-          }  text-white flex flex-col  gap-y-7  `}
+          }  text-white flex flex-col  gap-y-7`}
         >
-          <div className="title text-[#00234D] flex flex-col gap-y-2">
-            <h1 className="font-bold text-[16px] md:text-[25px] lg:text-[40px]">
-              Login
-            </h1>
+          <div className="mt-5 lg:mt-0 title text-[#00234D] flex flex-col gap-y-2">
+            <h1 className="font-bold text-[40px] ">Login</h1>
             <p className=" text-[14px] md:text-[18px]">
               Login to access your Golobe account
             </p>
@@ -201,13 +199,13 @@ export default function Login() {
         </div>
         <div
           className={`${
-            pathname === '/payment' ? 'hidden h-fit' : 'h-[600px] '
+            pathname === '/payment' ? 'hidden h-fit' : 'lg:h-[600px] h-0 '
           }  my-auto w-[95%] mx-auto`}
         >
           <CustomSlider
             {...settings}
             className={` ${
-              pathname === '/payment' ? 'hidden' : 'hidden lg:block'
+              pathname === '/payment' ? 'hidden' : 'hidden md:block  lg:block'
             } h-full`}
           >
             <img

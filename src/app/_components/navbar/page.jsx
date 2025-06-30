@@ -2,6 +2,7 @@
 import { contextProvider } from '@/app/context/contextProvider';
 import UseAccount from '@/app/hook/(auth)/useAccount';
 import { scrollInfo } from 'framer-motion';
+
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useContext, useEffect, useState } from 'react';
@@ -33,7 +34,6 @@ export default function Navbar() {
     setTokenValue(localStorage.removeItem('token'));
     router.push('/login');
   };
-
   // why using useEffect ? because use effect is hook and the hook will be active after rendring its called hyderation
   useEffect(() => {
     handleScrollPosation();
@@ -119,7 +119,9 @@ export default function Navbar() {
             <Link
               onClick={() => isOpen(false)}
               href="/accountLayout"
-              className="myAccount flex gap-x-2 items-center relative"
+              className={`myAccount flex gap-x-2 items-center relative  ${
+                path === '/accountLayout' ? 'text-[#FCA311]' : 'text-black'
+              }`}
             >
               <i className="fa-solid fa-user-large text-[14px]"></i>
               <p className="text-[14px] font-medium mt-1">My account</p>
@@ -128,11 +130,66 @@ export default function Navbar() {
             <Link
               onClick={() => isOpen(false)}
               href="/payment"
-              className="payment flex gap-x-2 items-center relative"
+              className={`payment flex gap-x-2 items-center relative ${
+                path === '/payment' ? 'text-[#FCA311]' : 'text-black'
+              }`}
             >
               <i className="fa-solid fa-money-check text-[14px]"></i>
               <p className="text-[14px] font-medium ">Payments</p>
               <i className="fa-solid fa-chevron-right absolute right-0 text-[14px] "></i>
+            </Link>
+            <Link
+              onClick={() => isOpen(false)}
+              href="/book"
+              className={`book flex gap-x-2 items-center relative md:hidden  ${
+                path === '/book' ? 'text-[#FCA311]' : 'text-black'
+              }`}
+            >
+              <i className="fa-solid fa-receipt text-[14px]"></i>
+              <p className="text-[14px] font-medium ">Book</p>
+              <i className="fa-solid fa-chevron-right absolute right-0 text-[14px] "></i>
+            </Link>
+
+            <Link
+              onClick={() => isOpen(false)}
+              href="/contact"
+              className={`contact flex gap-x-2 items-center relative md:hidden ${
+                path === '/contact' ? 'text-[#FCA311]' : 'text-black'
+              }`}
+            >
+              <i className="fa-solid fa-envelope text-[14px]"></i>
+              <p className="text-[14px] font-medium ">contact</p>
+              <i className="fa-solid fa-chevron-right absolute right-0 text-[14px] "></i>
+            </Link>
+            <Link
+              onClick={() => isOpen(false)}
+              href="/favourateLayout"
+              className={`favourate flex gap-x-2 items-center relative md:hidden ${
+                path === '/favourateLayout' ? 'text-[#FCA311]' : 'text-black'
+              }`}
+            >
+              <i className="fa-solid fa-heart text-[14px]"></i>
+              <p className="text-[14px] font-medium ">favourites</p>
+              <i className="fa-solid fa-chevron-right absolute right-0 text-[14px] "></i>
+            </Link>
+            <Link
+              href="/"
+              className={`findCar flex items-center gap-x-3 md:hidden ${
+                path === '/' ? 'text-[#FCA311]' : 'text-black'
+              }`}
+            >
+              <i className="fa-solid fa-car w-[20px] h-[16px]"></i>
+              <p className="text-[14px] font-semibold">Find Car</p>
+            </Link>
+
+            <Link
+              href="/stays"
+              className={`findCar flex items-center gap-x-3 md:hidden  ${
+                path === '/stays' ? 'text-[#FCA311]' : 'text-black'
+              }`}
+            >
+              <i className="fa-solid fa-bed w-[20px] h-[16px]"></i>
+              <p className="text-[14px] font-semibold">Find Stays</p>
             </Link>
           </div>
           <div className="support__log flex flex-col gap-y-4">

@@ -65,12 +65,12 @@ export default function NavbarW() {
       <div
         className={`md:hidden ${
           isClick ? 'block' : 'hidden'
-        } absolute right-0 top-20  humborger___mobile flex flex-col gap-y-5 bg-sky-900 p-5 rounded-xl w-full`}
+        } absolute right-0 top-10  humborger___mobile shadow-lg flex flex-col gap-y-5 bg-white  p-5 rounded-b-md w-full`}
       >
         <Link
           href="/stays"
           className={`findCar flex items-center gap-x-3  ${
-            pathname === '/stays' ? 'text-[#FCA311]' : 'text-white'
+            pathname === '/stays' ? 'text-[#FCA311]' : 'text-black'
           }`}
         >
           <i className="fa-solid fa-bed w-[20px] h-[16px]"></i>
@@ -80,7 +80,7 @@ export default function NavbarW() {
         <Link
           href="/"
           className={`findCar flex items-center gap-x-3 ${
-            pathname === '/' ? 'text-[#FCA311]' : 'text-white'
+            pathname === '/' ? 'text-[#FCA311]' : 'text-black'
           }`}
         >
           <i className="fa-solid fa-car w-[20px] h-[16px]"></i>
@@ -90,7 +90,7 @@ export default function NavbarW() {
         <Link
           href="/login"
           className={` flex items-center gap-x-3 ${
-            pathname === '/login' ? 'text-[#FCA311]' : 'text-white'
+            pathname === '/login' ? 'text-[#FCA311]' : 'text-black'
           }`}
         >
           <i className="fa-solid fa-right-to-bracket w-[20px] h-[16px]"></i>
@@ -100,7 +100,7 @@ export default function NavbarW() {
         <Link
           href="/register"
           className={`findCar flex items-center gap-x-3 ${
-            pathname === '/register' ? 'text-[#FCA311]' : 'text-white'
+            pathname === '/register' ? 'text-[#FCA311]' : 'text-black'
           }`}
         >
           <i className="fa-solid fa-user-plus w-[20px] h-[16px]"></i>
