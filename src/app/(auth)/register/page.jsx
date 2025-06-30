@@ -10,7 +10,6 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { contextProvider } from '@/app/context/contextProvider';
 import toast from 'react-hot-toast';
-import UseAccountName from '@/app/hook/(auth)/useAccountName';
 export default function Register() {
   // use context
   let { setTokenValue, isloading, setIsLoading } = useContext(contextProvider);
