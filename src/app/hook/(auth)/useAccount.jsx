@@ -6,7 +6,7 @@ export default function UseAccount() {
   const getData = () => {
     return (
       axios
-        .get('https://tourism-api-u2as.onrender.com/api/user/profile', {
+        .get(`https://tourism-api-u2as.onrender.com/api/user/profile `, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
           },

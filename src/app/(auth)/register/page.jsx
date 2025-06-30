@@ -10,9 +10,24 @@ import { useContext, useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { contextProvider } from '@/app/context/contextProvider';
 import toast from 'react-hot-toast';
+import UseAccountName from '@/app/hook/(auth)/useAccountName';
 export default function Register() {
   // use context
   let { setTokenValue, isloading, setIsLoading } = useContext(contextProvider);
+
+  // sign in accounts
+  const [account, setAccount] = useState([
+    { name: 'facebook', img: 'TURISM-AIG-WEB-PIC/facebook.png' },
+    { name: 'google', img: 'TURISM-AIG-WEB-PIC/google.png' },
+    { name: 'apple', img: 'TURISM-AIG-WEB-PIC/apple.png' },
+  ]);
+
+  // get account name
+  const handleSignupName = (e) => {
+    let result = e.target.name;
+    // if (!result) return;
+    window.location.href = `https://tourism-api-u2as.onrender.com/api/auth/${result}`;
+  };
 
   // handle error in form
   const userError = Yup.object().shape({
@@ -89,7 +104,7 @@ export default function Register() {
     adaptiveHeight: true,
   };
   return (
-    <div className="mx-5 xl:mx-20  flex justify-center items-center h-screen mt-10 mb-40 relative ">
+    <div className="mx-5 xl:mx-20  flex justify-center items-center h-screen mt-14 md:mt-10 mb-40 relative ">
       <div className="grid grid-cols-1 lg:grid-cols-2  w-full h-full gap-x-10 ">
         <div className="img h-[600px] my-auto w-[95%] mx-auto hidden lg:block">
           <CustomSlider {...settings} className="h-full">
@@ -290,25 +305,21 @@ export default function Register() {
 
           <div className="another border border-t-[#00234D] opacity-50 relative before"></div>
           <div className="accounts grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 items-center gap-x-5 gap-y-5">
-            <Link
-              href={''}
-              className="facebook border border-[#FCA5A5] flex justify-center items-center h-[45px]  "
-            >
-              <i className="fa-brands fa-facebook text-[#1877F2] text-[24px]"></i>
-            </Link>
-            <Link
-              href={''}
-              className="facebook border border-[#FCA5A5] flex justify-center items-center h-[45px]  "
-            >
-              <i className="fa-brands fa-google text-[#1877F2] text-[24px]"></i>
-            </Link>
-
-            <Link
-              href={''}
-              className="facebook border border-[#FCA5A5] flex justify-center items-center h-[45px]  "
-            >
-              <i className="fa-brands fa-apple text-[#00234D] text-[24px]"></i>
-            </Link>
+            {account.map((acc) => (
+              <button
+                onClick={handleSignupName}
+                className="flex justify-center items-center border border-gray-300 rounded-md py-2"
+                key={acc.name}
+                name={acc.name}
+              >
+                <img
+                  className="w-[30px] h-[30px] block"
+                  src={acc.img}
+                  alt={acc?.name}
+                  name={acc.name}
+                />
+              </button>
+            ))}
           </div>
         </div>
       </div>

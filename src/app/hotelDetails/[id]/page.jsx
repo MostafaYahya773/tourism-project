@@ -23,6 +23,8 @@ export default function HotelDetails() {
   const handleFavourate = (hoteId) => {
     mutate(hoteId, {
       onSuccess: (res) => {
+        console.log(res);
+
         toast.success(res?.data?.message, {
           position: 'top-center',
           className: 'mt-16 text-[14px]',
