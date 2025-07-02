@@ -19,7 +19,7 @@ export default function Book() {
           <div className="mobileicon flex gap-x-5 items-center text-[16px] text-[#00234D] md:hidden px-7 a ">
             <i
               onClick={() => setIsClick(!isclick)}
-              className="fa-solid fa-bars-progress text-[16px]"
+              className="fa-solid fa-bars-progress text-[16px] "
             ></i>
             <div className="Links flex gap-x-3 items-center">
               <Link href="/">Home</Link>
@@ -33,12 +33,12 @@ export default function Book() {
                 isclick ? 'block' : 'hidden'
               }`}
             >
-              <div className="title text-[20px] text-[#00234D] font-semibold flex items-center justify-between">
+              <div className="title  mt-12 text-[20px] text-[#00234D] font-semibold flex items-center justify-between">
                 <h1 className="">Filters</h1>
                 <span
                   className={`text-[25px] ${
                     isclick ? 'block' : 'hidden'
-                  } mt-3 cursor-pointer`}
+                  }  cursor-pointer `}
                   onClick={() => setIsClick(false)}
                 >
                   x

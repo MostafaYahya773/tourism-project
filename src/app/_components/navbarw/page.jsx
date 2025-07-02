@@ -35,7 +35,7 @@ export default function NavbarW() {
           }`}
         >
           <i className="fa-solid fa-car w-[20px] h-[16px]"></i>
-          <p className="text-[14px] font-semibold">Find Car</p>
+          <p className="text-[14px] font-semibold">Find stays</p>
         </Link>
 
         <Link
@@ -45,7 +45,7 @@ export default function NavbarW() {
           }`}
         >
           <i className="fa-solid fa-bed w-[20px] h-[16px]"></i>
-          <p className="text-[14px] font-semibold">Find Stays</p>
+          <p className="text-[14px] font-semibold">Find car</p>
         </Link>
       </div>
       <div className="hidden log md:flex gap-x-3">

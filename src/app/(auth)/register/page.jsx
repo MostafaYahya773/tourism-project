@@ -24,10 +24,8 @@ export default function Register() {
   // get account name
   const handleSignupName = (e) => {
     let result = e.target.name;
-    // if (!result) return;
     window.location.href = `https://tourism-api-u2as.onrender.com/api/auth/${result}`;
   };
-
   // handle error in form
   const userError = Yup.object().shape({
     firstName: Yup.string()

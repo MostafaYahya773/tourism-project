@@ -30,7 +30,7 @@ export default function RecentSearch() {
     },
   ]);
   return (
-    <div className="flex flex-col gap-y-5">
+    <div className="flex flex-col gap-y-5 mt-40 md:mt-0">
       <div className="title text-[#00234D]">
         <h1 className="text-[20px] md:text-[25px] lg:text-[32px] font-bold ">
           Your recent searches

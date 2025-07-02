@@ -33,12 +33,12 @@ export default function FindStaysFlying() {
 
   return (
     <div
-      className={`w-[95%] h-fit  shadow-xl mx-auto rounded-xl gap-y-12 p-5 hidden md:grid bg-white ${
-        path === '/book' ? 'grid-rows-none' : 'grid-rows-[auto_auto]'
+      className={`w-[95%] h-fit  shadow-xl mx-auto rounded-xl gap-y-12 p-5  md:grid bg-white ${
+        path === '/book' ? 'mt-5 md:mt-0' : 'grid-rows-[auto_auto]'
       }`}
     >
       <div className={`title ${path === '/book' ? 'hidden' : 'block'}`}>
-        <h1 className=" fliying_title text-[#114577] text-[20px] font-semibold relative">
+        <h1 className=" fliying_title text-[#114577] text-[20px] mb-7 md:mb-0 font-semibold relative">
           Where are you flying?
         </h1>
       </div>
@@ -47,7 +47,7 @@ export default function FindStaysFlying() {
         <form>
           <div className="flex flex-col gap-y-5 gap-x-5 flex-wrap">
             <div
-              className={` grid md:grid-cols-2 ${
+              className={`grid md:grid-cols-2 ${
                 path === '/book'
                   ? 'lg:grid-cols-[1fr_1fr_1fr_1fr_auto]'
                   : 'lg:grid-cols-4'
@@ -77,7 +77,11 @@ export default function FindStaysFlying() {
                   ))}
                 </select>
               </div>
-              <div className="chickIn relative">
+              <div
+                className={`${
+                  path === '/book' ? '' : 'hidden md:block'
+                } chickIn relative   `}
+              >
                 <label
                   htmlFor="chickIn"
                   className="absolute font-normal text-[14px] text-[#00234D] bg-white left-2 -top-[9px] px-1 "
@@ -97,7 +101,11 @@ export default function FindStaysFlying() {
                   ))}
                 </select>
               </div>
-              <div className="chickOut relative">
+              <div
+                className={`${
+                  path === '/book' ? '' : 'hidden md:block'
+                } chickOut relative`}
+              >
                 <label
                   htmlFor="chickOut"
                   className="absolute font-normal text-[14px] text-[#00234D] bg-white left-2 -top-[9px] px-1 "
@@ -145,8 +153,8 @@ export default function FindStaysFlying() {
                 className={`${
                   path === '/book'
                     ? 'block bg-[#00234D] text-[#FCA311]'
-                    : 'bg-[#76192D]  text-white hidden'
-                } flex gap-x-2 text-[14px] font-medium items-center px-5 py-3 col-span-2 lg:col-span-1  rounded-sm`}
+                    : 'bg-[#76192D]  text-white hidden '
+                } flex gap-x-2 text-[14px] font-medium  items-center px-5 py-3 col-span-2 lg:col-span-1  rounded-sm`}
               >
                 <div className="w-full">
                   <p className="text-center w-full lg:hidden text-[18px]">
@@ -159,8 +167,8 @@ export default function FindStaysFlying() {
             <button
               type="submit"
               className={`${
-                path === '/book' ? 'hidden' : ''
-              } flex gap-x-2 text-[14px] font-medium items-center px-5 py-3 bg-[#76192D]  text-white w-fit self-end rounded-sm`}
+                path === '/book' ? 'hidden' : 'w-full justify-center md:w-fit'
+              } flex gap-x-2 text-[14px] font-medium items-center px-5 py-3 bg-[#76192D]  text-white  self-end rounded-sm`}
             >
               <i className="fa-solid fa-location-arrow"></i>
               <p>Show Tran</p>

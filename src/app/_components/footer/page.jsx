@@ -1,7 +1,14 @@
+'use client';
 import Link from 'next/link';
 
 import React from 'react';
 export default function Footer() {
+  // handle form
+  const handleForm = (e) => {
+    e.preventDefault();
+    let result = e.target.value;
+    console.log(result);
+  };
   return (
     <div className="mt-10 px-2 md:px-10 bg-[#00234D] w-full left-0 sticky  right-0 h-fit p-5">
       <div className="flex flex-col gap-y-10 mx-auto max-w-[2000px]">
@@ -21,7 +28,9 @@ export default function Footer() {
                 <input
                   className="border-none outline-none text-black font-normal p-3 min-w-[200px] w-2/3 h-[60px] rounded-sm"
                   type="text"
+                  name="email"
                   placeholder="Your email address"
+                  onChange={handleForm}
                 />
                 <button
                   className="h-[60px] bg-[#FCA311] px-5 rounded-sm"

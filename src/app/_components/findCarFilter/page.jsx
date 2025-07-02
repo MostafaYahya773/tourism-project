@@ -27,8 +27,8 @@ export default function FindCarFilter() {
   };
 
   return (
-    <div className="w-[95%] h-fit bg-white shadow-xl mx-auto rounded-xl hidden md:grid grid-rows-[auto_1fr] gap-y-12 p-5">
-      <div className="logos flex gap-x-4 text-[#00234D] font-semibold relative">
+    <div className="w-[95%] h-fit bg-white shadow-xl mx-auto rounded-xl  md:grid grid-rows-[auto_1fr] gap-y-12 p-5">
+      <div className="logos flex gap-x-4 text-[#00234D] font-semibold relative mb-10 md:mb-0">
         <div className="tran flex gap-1 ">
           <i className="fa-solid fa-car w-[20px] h-[16px]"></i>
           <p className="text-[14px] font-semibold">Tran</p>
@@ -42,7 +42,7 @@ export default function FindCarFilter() {
       <div className="filtring flex flex-col gap-y-3">
         <form>
           <div className="flex flex-col gap-y-5 gap-x-5 flex-wrap">
-            <div className=" grid md:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-5 ">
+            <div className=" grid  md:grid-cols-2 lg:grid-cols-4 gap-x-2 gap-y-5 ">
               <div className="place relative">
                 <label
                   htmlFor="place"
@@ -131,7 +131,6 @@ export default function FindCarFilter() {
                 </select>
               </div>
             </div>
-
             <button
               type="submit"
               className="flex gap-x-2 text-[14px] font-medium items-center px-5 py-3 bg-[#76192D]  text-white w-fit self-end rounded-sm"

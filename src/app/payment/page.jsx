@@ -37,8 +37,10 @@ export default function Payment() {
       id: 1,
     },
   ]);
+  // checkd option
+  let [selectedId, setSelectedId] = useState(0);
   // token is exist or not
-  const [token, setToken] = useState();
+  const [token, setToken] = useState(null);
   useEffect(() => {
     let tokenValue = localStorage.getItem('token');
     if (!tokenValue) {
@@ -46,9 +48,8 @@ export default function Payment() {
     } else {
       setToken(tokenValue);
     }
-  }, []);
-  // checkd option
-  let [selectedId, setSelectedId] = useState(0);
+    console.log('selectedId changed to:', selectedId);
+  }, [selectedId]);
 
   return (
     <div className="mt-24 relative grid grid-cols-1 md:grid-cols-[70%_30%] gap-5 md:gap-x-3  text-[#00234D] md:w-[95%] w-[98%] mb-[0px] md:mb-[200px]  mx-auto">
@@ -99,36 +100,35 @@ export default function Payment() {
             </div>
           </div>
         </div>
-        <div className="paymentOption  flex flex-col  gap-y-3 payment-shadow p-3 rounded-md">
-          {paymentType?.map((item, index) => (
-            <div
-              key={index}
-              onClick={() => setSelectedId(item?.id)}
-              className={`${
-                item?.id === selectedId ? 'bg-[#FCA311] ' : ''
+        <div className="paymentOption  z-10 flex flex-col  gap-y-3 payment-shadow p-3 rounded-md">
+          {paymentType?.map((item) => (
+            <label
+              key={item?.id}
+              htmlFor={item.id}
+              className={`cursor-pointer ${
+                item?.id === selectedId ? 'bg-[#FCA311]' : ''
               } fullpay flex justify-between items-center md:p-5 p-2 rounded-2xl gap-5`}
             >
-              <label
-                className="w-full  flex flex-col gap-y-2"
-                htmlFor={item?.id}
-              >
+              <div className="w-full flex flex-col gap-y-2">
                 <h1 className="font-bold">{item.type}</h1>
                 <p className="font-normal text-[10px] md:text-[14px]">
                   {item?.title}
                 </p>
-              </label>
+              </div>
+
               <input
-                id={item?.id}
-                name={item.name}
+                id={item.id}
+                type="radio"
+                name={item?.name}
                 checked={selectedId === item.id}
                 onChange={() => setSelectedId(item.id)}
-                type="radio"
+                className="cursor-pointer"
               />
-            </div>
+            </label>
           ))}
         </div>
       </div>
-      <div className="submitpayment w-full h-fit payment-shadow p-2 lg:p-3 md:sticky top-24 rounded-md flex flex-col gap-y-3">
+      <div className="submitpayment w-full h-fit payment-shadow p-2 lg:p-3 md:sticky top-24  rounded-md flex flex-col gap-y-3">
         <div className="hotel_details flex flex-col gap-y-3">
           <div className="hotel flex items-start  flex-row  md:flex-col lg:flex-row gap-3 border-b border-[#00234d50] pb-4">
             <img
@@ -195,7 +195,7 @@ export default function Payment() {
         {token ? <PaymentOption /> : <Login />}
       </div>
 
-      <div className="add_card absolute flex justify-center items-center w-full h-screen z-[100000]">
+      <div className="add_card absolute flex justify-center items-center w-full h-screen z-1">
         <AddNewCard />
       </div>
     </div>
